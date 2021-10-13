@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+       #show {
+            border: 2px solid black;
+            margin: -315px 284px;
+            background-color: black;
+            color: white;
+            /* border-radius: 10px; */
+            height: 308px;
+        }
+
+        img {
+            height: 311px;
+            width: 281px;
+        }
+
+    </style>
+</head>
+
+<body>
+    <button onclick="home()">Go to Home</button>
+    <div id="movieDetail">
+
+    </div>
+</body>
+
+</html>
+
+<script>
+
+
+    let moviedetails = JSON.parse(localStorage.getItem('moviedetails11'))
+    console.log(moviedetails)
+
+
+    function showDetails(d) {
+
+        d.innerHTML = null;
+
+
+        let div = document.createElement('div')
+        let moviePoster = document.createElement('img')
+        moviePoster.src = d.Poster;
+
+        let div2 = document.createElement('div')
+        div2.id='show'
+        let releaseDate = document.createElement('p')
+        releaseDate.textContent = d.Released
+        let title = document.createElement('p')
+        title.textContent = d.Title
+        let ratings = document.createElement('p')
+        ratings.textContent = d.imdbRating
+        let des = document.createElement('p')
+        des.textContent = d.Plot
+        let recom = document.createElement('p')
+        recom.textContent = 'recommendated'
+
+        if (d.imdbRating >= 8.5) {
+            div.append(recom)
+        }
+        div2.append(title, releaseDate, ratings, des)
+        div.append(moviePoster,div2)
+        movieDetail.append(div)
+
+
+
+    }
+    showDetails(moviedetails)
+    function home(){
+        window.location.href='debouncing.html'
+    }
+</script>
