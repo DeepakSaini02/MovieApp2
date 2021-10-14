@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Document</title>
+</head>
+
+<style>
+  body{
+    background-color: #212121;
+    color: white;
+  }
+  #tranding {
+    display: grid;
+    gap: 31px;
+    grid-template-columns: repeat(5, 18%);
+  }
+
+  #moviePoster {
+    height: 200px;
+    width: 200px;
+  }
+
+  #movies {
+    height: 200px;
+    width: 250px;
+    /* border: 1px solid black; */
+    overflow: scroll;
+    border-top: none;
+    position: absolute;
+    background-color: #81D4FA;
+    /* margin-left: 54%; */
+  }
+
+  input {
+    width: 250px;
+
+  }
+
+  #navbar {
+    border: 3px solid black;
+    background-color: black;
+  }
+
+
+  #navbar>ul {
+    display: flex;
+    list-style: none;
+    margin: 4px;
+    font-size: 20px;
+
+
+  }
+
+  #navbar>ul>li {
+    margin: 1%;
+
+  }
+
+  #navbar>ul>li:nth-child(6) {
+    margin-left: 40%;
+    border: 3px solid yellow;
+
+  }
+
+  #navbar>ul>li>a {
+    text-decoration: none;
+    color: white;
+  }
+  #div{
+    margin: 20px;
+    border: 2px solid #607D8B;
+    border-radius: 10px;
+    box-shadow: 2px 2px 5px cornflowerblue;
+    transition: transform .2s;
+    width: 200px;
+  }
+  #div:hover{
+    transform: scale(1.1);
+  }
+  
+</style>
+
+<body>
+
+  <nav id="navbar">
+    <ul>
+      <li><a href="home.html">Disney+hotstar</a></li>
+      <li><a href="">TV</a></li>
+      <li><a href="">Movies</a></li>
+      <li><a href="">Sports</a></li>
+      <li><a href="">Disney+</a></li>
+      <li>
+        <input oninput="debounce(main,1000)" type="text" id="movie" placeholder="Enter movie name" />
+        <div id="movies"></div>
+      </li>
+    </ul>
+  </nav>
+  <h1 id="h1">Trending Movies</h1>
+  <div id="tranding">
+
+  </div>
+
+</body>
+<script src="debouncing.js"></script>
+
+<script>
+
+  let tranding = document.getElementById('tranding')
+
+  async function trandingMovies() {
+
+    let res = await fetch(`https://api.themoviedb.org/3/trending/movie/week?api_key=0e56d0b10bfcaa71fd0a6dffe06d5f59`)
+    let data = await res.json()
+
+    console.log(data)
+    showDetails(data.results)
+
+  }
+
+  trandingMovies()
+
+
+  function showDetails(trandMoives) {
+
+    trandMoives.innerHTML = null;
+    trandMoives.forEach((M) => {
+      let div = document.createElement('div')
+      div.id='div'
+      
+      let moviePoster = document.createElement('img')
+      moviePoster.id = "moviePoster"
+      moviePoster.src = `https://image.tmdb.org/t/p/w500${M.poster_path}`
+
+      let title = document.createElement('p')
+      title.textContent = M.title
+
+
+      div.append(moviePoster, title)
+
+      tranding.append(div)
+
+
+      div.onclick = () => {
+        console.log(M)
+        trand_movieee(M)
+      }
+
+    })
+
+
+
+
+
+  }
+
+
+  async function trand_movieee(dd) {
+
+    console.log(dd.id)
+
+    let res = await fetch(`https://api.themoviedb.org/3/movie/${dd.id}?api_key=0e56d0b10bfcaa71fd0a6dffe06d5f59`)
+    let data = await res.json()
+
+    localStorage.setItem('moviedetails11', JSON.stringify(data))
+
+    window.location.href = 'movieDetails2.html';
+
+
+  }
+</script>
