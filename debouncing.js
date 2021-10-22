@@ -25,6 +25,12 @@ function appendMovies(movies){
   let movie=document.getElementById('movie')
   console.log(movie.style.focus)
   movie_div.style.visibility='visible'
+  let bodyclick=document.querySelector("body");
+  bodyclick.addEventListener("click",hide)
+  function hide(){
+    movie.value=null;
+    movie_div.style.visibility='hidden'
+  }
   movies.forEach(function(mov){
     let p=document.createElement('p')
     p.innerText=mov.Title;
